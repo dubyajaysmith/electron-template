@@ -1,8 +1,8 @@
-# electron-template
+# ⚙️ electron-template
 
-> A template for electron with web-componentized views making for a clean jump off point from
-the start. 
+> A template for electron with web-componentized views making for a simple but clean jump off point from the start. 
 
+![electron-template screenie](https://i.imgur.com/DkWnXpw.png)
 
 ## Dev
 
