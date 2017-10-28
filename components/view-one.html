@@ -1,0 +1,247 @@
+<!-- human.txt += Jamie Smith, i@jamiesmiths.com -->
+
+<dom-module id="view-one">
+	<template>
+
+		<style>
+			@font-face {
+				font-family: 'Material Icons';
+				font-style: normal;
+				font-weight: 400;
+				src: url(http://fonts.gstatic.com/s/materialicons/v30/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
+			}
+
+			.material-icons {
+				font-family: 'Material Icons';
+				font-weight: normal;
+				font-style: normal;
+				font-size: 24px;
+				line-height: 1;
+				letter-spacing: normal;
+				text-transform: none;
+				display: inline-block;
+				white-space: nowrap;
+				word-wrap: normal;
+				direction: ltr;
+				-webkit-font-feature-settings: 'liga';
+				-webkit-font-smoothing: antialiased;
+			}
+
+			.card {
+				border-radius: 2px;
+				display: inline-block;
+				height: auto;
+				position: relative;
+				width: 86%;
+				background: #FFF;
+				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+				transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+				z-index: 20;
+				margin: 2rem 2rem 2rem 0rem;
+				opacity: .9;
+				padding: 2rem 2rem 1rem 2rem;
+			}
+
+			.card:hover {
+				box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 0 10px 0 rgba(0, 0, 0, 0.22);
+			}
+
+			.card-title {
+				font-weight: 300;
+				font-size: 1.5rem;
+				user-select: none;
+				padding-bottom: 3rem;
+			}
+
+			.card-info {
+				font-weight: 300;
+				font-size: 1rem;
+			}
+
+			.card-body {
+				text-align: center;
+				user-select: none;
+				padding-bottom: 3rem;
+			}
+
+			.hide {
+				display: none;
+			}
+
+			.big-button  {
+				max-width: 4rem;
+				font-size: 4rem;
+				cursor: pointer;
+				color: #B3E5FC;
+				background: #3e3e3c;
+				padding: 1rem;
+				border-radius: 25rem;
+				box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+			}
+
+			.big-button:hover {
+				box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 0 10px 0 rgba(0, 0, 0, 0.22);
+			}
+
+			a {
+				font-weight: 600;
+				color: #B3E5FC;
+				text-decoration: none;
+			}
+
+			a:hover {
+				color: #03A9F4;
+			}
+
+			footer {
+				float: right;
+			}
+
+			footer .material-icons {
+				font-family: 'Material Icons';
+				font-style: normal;
+				color: #ff4081;
+				font-size: 1.5rem;
+				vertical-align: text-bottom;
+			}
+
+			#dropArea {
+                cursor: pointer;
+				user-select: none;
+			}
+
+		</style>
+
+		<article class="card">
+			<div class="card-title">
+				<i class="material-icons">beach_access</i>
+				Title
+				<hr/>
+				<i class="card-info">This does something so that something is or does something else.</i>
+			</div>
+
+			<div class="card-body">
+				<div id="dropArea">
+					<i id="button" class="big-button material-icons">file_upload</i>
+				</div>
+
+			</div>
+
+			<footer>
+				Written with
+				<i class="heart material-icons">favorite</i> by
+				<a href="//jamiesmiths.com" target="_blank">Jamie Smith</a>
+			</footer>
+		</article>
+
+
+
+	</template>
+
+	<script>
+		/*global HTMLElement navigator localStorage MediaMetadata*/
+		class ViewOne extends HTMLElement {
+
+			init() {
+				this.registerElements()
+			}
+
+			setProperties() {
+				this.is = 'view-one'
+			}
+
+			// Fires when an instance was removed from the document.
+			detachedCallback() {
+				this.log('instance was removed.')
+			}
+
+			// Fires when an attribute was added, removed, or updated.
+			attributeChangedCallback(attr, oldVal, newVal) {
+
+				/* if(newVal){
+				    //this.log('-attr: ' + attr + '\n-oldVal: ' +  oldVal + ' \n-newVal: ' +  newVal)
+				    
+				    'name' == attr ? this.name = newVal : ''
+				    
+				    
+				    'image' == attr ? this.image = newVal : ''
+				    if('play' == attr){
+				        newVal ? this.dom.play.onclick() : this.dom.pause.onclick() 
+				    }
+				} */
+			}
+
+			// Fires when an instance was inserted into the document.
+			attachedCallback() {
+				const template = this.owner.querySelector('template')
+				const clone = document.importNode(template.content, true)
+				clone.applyAuthorStyles = true
+				this.root = this.createShadowRoot()
+				this.root.applyAuthorStyles = true
+				this.root.appendChild(clone)
+				this.init()
+
+			}
+
+
+			// Fires when an instance of the element is created.
+			createdCallback() {
+				this.setProperties()
+				this.parseAttributes()
+				//console.log('instance was created.')
+			}
+
+			parseAttributes() {
+
+				//this.name = this.getAttribute('name');
+				//this.number = parseInt(this.getAttribute('number'));
+			}
+
+			registerElements() {
+
+				this.dom = {}
+				this.dom.sudoFile = this.root.getElementById('button')
+				//this.dom.section = this.root.getElementById('section')
+
+				this.addListeners()
+			}
+
+			addListeners() {
+				//console.dir(this.dom)
+
+				this.dom.file.onchange = (e) => {
+					const path = e.target.id
+					ipc.send('invokeAction', path);
+					ipc.once('actionReply', function (event, response) {
+						console.log('render response');
+						console.log(response);
+					})
+				}
+
+				/* 
+				this.dom.play.onclick = function()  {
+					this.log('play clicked');this.dump();
+					
+					// UI
+					this.dom.playdiv.style.backgroundImage = 'url(' +this.image+ ')'
+					
+					//Mechanics
+					localStorage['audioImg'] = String(this.image);\
+					
+					//Some work
+
+				}.bind(this)
+				*/
+
+			}
+
+
+		}
+
+		if (document.createElement('view-one').constructor !== ViewOne) {
+			ViewOne.prototype.owner = (document._currentScript || document.currentScript).ownerDocument;
+			document.registerElement('view-one', ViewOne);
+		}
+
+	</script>
+</dom-module>

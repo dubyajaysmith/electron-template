@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Electron Template</title>
+	<link rel="stylesheet" href="index.css">
+	<link rel="import" href="components/view-one.html">
+	<link rel="import" href="components/view-settings.html">
+</head>
+
+<body>
+	<div class="container">
+		<div class="app-grid">
+			<div>
+				<nav>
+
+					<h2 class=" header">
+						<i class="material-icons">code</i> Views
+					</h2>
+					<ul>
+						<li>
+							<a data-type="viewOne" class="active" href="#" onclick="javascript:navAction(this);">
+								View One
+							</a>
+						</li>
+
+						<li>
+							<a data-type="settings" href="#" onclick="javascript:navAction(this);" class="">
+								Settings
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+
+
+			<div id="main" class="card-container">
+				<view-one id="viewOne" class="cmp"></view-one>
+				<view-settings id="settings" class="cmp hide"></view-settings>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+
+	function navAction(el) {
+
+		const li = el.parentElement.parentElement.children
+		Array.from(li).map(x => {
+			Array.from(x.children).map(x => x.classList.remove('active'))
+		});
+
+		Array.from(document.getElementsByClassName('cmp')).map(x => {
+			if (el.dataset.type == x.id) {
+				x.classList.remove('hide')
+			} else {
+				x.classList.add('hide')
+			}
+		});
+		
+		el.classList.add('active')
+
+		document.querySelector('#' + el.dataset.type)
+	}
+
+</script>
+</html>
