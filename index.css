@@ -13,8 +13,9 @@ html {
 }
 body {
 	margin: 0px;
+	background: cornflowerblue;
 }
-  
+
 .material-icons {
 	font-family: 'Material Icons';
 	font-style: normal;

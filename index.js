@@ -19,11 +19,15 @@ function onClosed() {
 }
 
 function createMainWindow() {
+
 	const win = new electron.BrowserWindow({
+		frame: true,
 		width: 1200,
 		height: 1000,
-		icon: __dirname + '/img/CC1024.png',
-		frame: true
+		resizable: true,
+		backgroundColor: '#3e3e3c',
+		icon: `${__dirname}/resources/icon.png`,
+		titleBarStyle: 'customButtonsOnHover'
 	});
 
 	//win.webContents.openDevTools()

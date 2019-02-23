@@ -1,2 +1,3 @@
+dist
+.history
 node_modules
-/dist
